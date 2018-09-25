@@ -5,14 +5,20 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 	<script type="text/javascript">
+	var bearer = "Bearer eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJleHAiOiAxNTM3OTczMzU2LA0KICAgICJpc3MiOiAiRjAyQUVCNEQ1NTMxNzA0NzBBNEM5OEE1QEFkb2JlT3JnIiwNCiAgICAic3ViIjogIjRERUUxNTBDNUJBQTRBRTkwQTQ5NUVCRUB0ZWNoYWNjdC5hZG9iZS5jb20iLA0KICAgICJodHRwczovL2ltcy1uYTEuYWRvYmVsb2dpbi5jb20vcy9lbnRfc2Vuc2VpX2ltYWdlX3NkayI6IHRydWUsDQogICAgImF1ZCI6ICJodHRwczovL2ltcy1uYTEuYWRvYmVsb2dpbi5jb20vYy8zMDcxNDg4NjBkZmI0OTNkYmFlYTA1Y2YzZGRlMzI4MyINCn0.CgjXXuc7sMMNYHy6R_WffzKsWJrwaivYvOdAnhyxg28jULXvnNldYjUUqdbqcko080YCn3rXwJFq4flscWbnVqK4A78gtbElm_W-d-b0Uv_xgV79lRx1miKNRQQIr_hyT0VqUgC9CIcahE_hq0vnKSuw_NCBqFN0fw8fvXP9MySrlJHHiKNB-IoIYJeSwqET24jvP3zY3h_ktzbxmUNar5cBpSboJJv1RcPKfaFwemh-PEvD4d4mNRaAWI04wMHmf6bDNxgrJfbyuEzbiGdNmzy_T55iqvx9yiLtfs1G5qHPsx-23-8GpvNC8hBR8aufmJfCzS6ld-GvaPILF196SQ";
+
+$.ajaxSetup({
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        "Authorization": bearer,
+      	"X-Api-Key": "307148860dfb493dbaea05cf3dde3283"
+    }
+});
+
 		$.post( "https://sensei.adobe.io/functions/image/autocrop", {
   "image": {
-    "uri": "https://t3.ftcdn.net/jpg/01/33/96/28/240_F_133962856_TZklwMOihwcLpsDEkTHU1kZBEbm01z7K.jpg",
-    "headers": {
-    	"Content-Type": "application/json",
-      "Authorization": "Bearer eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJleHAiOiAxNTM3OTczMzU2LA0KICAgICJpc3MiOiAiRjAyQUVCNEQ1NTMxNzA0NzBBNEM5OEE1QEFkb2JlT3JnIiwNCiAgICAic3ViIjogIjRERUUxNTBDNUJBQTRBRTkwQTQ5NUVCRUB0ZWNoYWNjdC5hZG9iZS5jb20iLA0KICAgICJodHRwczovL2ltcy1uYTEuYWRvYmVsb2dpbi5jb20vcy9lbnRfc2Vuc2VpX2ltYWdlX3NkayI6IHRydWUsDQogICAgImF1ZCI6ICJodHRwczovL2ltcy1uYTEuYWRvYmVsb2dpbi5jb20vYy8zMDcxNDg4NjBkZmI0OTNkYmFlYTA1Y2YzZGRlMzI4MyINCn0.CgjXXuc7sMMNYHy6R_WffzKsWJrwaivYvOdAnhyxg28jULXvnNldYjUUqdbqcko080YCn3rXwJFq4flscWbnVqK4A78gtbElm_W-d-b0Uv_xgV79lRx1miKNRQQIr_hyT0VqUgC9CIcahE_hq0vnKSuw_NCBqFN0fw8fvXP9MySrlJHHiKNB-IoIYJeSwqET24jvP3zY3h_ktzbxmUNar5cBpSboJJv1RcPKfaFwemh-PEvD4d4mNRaAWI04wMHmf6bDNxgrJfbyuEzbiGdNmzy_T55iqvx9yiLtfs1G5qHPsx-23-8GpvNC8hBR8aufmJfCzS6ld-GvaPILF196SQ",
-      "X-Api-Key": "307148860dfb493dbaea05cf3dde3283"
-    }
+    "uri": "https://t3.ftcdn.net/jpg/01/33/96/28/240_F_133962856_TZklwMOihwcLpsDEkTHU1kZBEbm01z7K.jpg"
   }
 })
   .done(function( data ) {
