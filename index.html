@@ -4,9 +4,73 @@
 	<title>Sensei API</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-	<script type="text/javascript">
+	<!--script type="text/javascript">
+	var bearer = "Bearer eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJleHAiOiAxNTM3OTczMzU2LA0KICAgICJpc3MiOiAiRjAyQUVCNEQ1NTMxNzA0NzBBNEM5OEE1QEFkb2JlT3JnIiwNCiAgICAic3ViIjogIjRERUUxNTBDNUJBQTRBRTkwQTQ5NUVCRUB0ZWNoYWNjdC5hZG9iZS5jb20iLA0KICAgICJodHRwczovL2ltcy1uYTEuYWRvYmVsb2dpbi5jb20vcy9lbnRfc2Vuc2VpX2ltYWdlX3NkayI6IHRydWUsDQogICAgImF1ZCI6ICJodHRwczovL2ltcy1uYTEuYWRvYmVsb2dpbi5jb20vYy8zMDcxNDg4NjBkZmI0OTNkYmFlYTA1Y2YzZGRlMzI4MyINCn0.CgjXXuc7sMMNYHy6R_WffzKsWJrwaivYvOdAnhyxg28jULXvnNldYjUUqdbqcko080YCn3rXwJFq4flscWbnVqK4A78gtbElm_W-d-b0Uv_xgV79lRx1miKNRQQIr_hyT0VqUgC9CIcahE_hq0vnKSuw_NCBqFN0fw8fvXP9MySrlJHHiKNB-IoIYJeSwqET24jvP3zY3h_ktzbxmUNar5cBpSboJJv1RcPKfaFwemh-PEvD4d4mNRaAWI04wMHmf6bDNxgrJfbyuEzbiGdNmzy_T55iqvx9yiLtfs1G5qHPsx-23-8GpvNC8hBR8aufmJfCzS6ld-GvaPILF196SQ";
 
 
+	$.post( "https://sensei.adobe.io/functions/image/autocrop", {
+  		"image": {
+    	"uri": "https://t3.ftcdn.net/jpg/01/33/96/28/240_F_133962856_TZklwMOihwcLpsDEkTHU1kZBEbm01z7K.jpg",
+    	"headers": {
+    		"Content-Type": "application/json",
+    		"Authorization": bearer,
+      		"X-Api-Key": "307148860dfb493dbaea05cf3dde3283"
+    }
+  }
+})
+  .done(function( data ) {
+    alert( "Data Loaded: " + data );
+  });  -->
+<style>
+	#form {
+		margin:50px 10px;
+
+	}
+	input[type=text] {
+		width:400px;
+	}
+	#imagecontainer {
+		position: absolute;
+	}
+	#overlay {
+		position: absolute;
+		border:3px solid red;
+		width:20px;
+		height: 20px;
+	}
+
+</style>
+
+</head>
+<body>
+<div id="form">
+	<form id="myForm"><input id="imageUrl" name="imageUrl" type="text" placeholder="path to image" />
+	<input type="submit" />
+	</form>
+</div>
+<div id ="imagecontainer">
+	<div id="overlay"></div>
+	<img id="image"/>
+</div>
+
+<script type="text/javascript">
+
+$('#overlay').hide();
+
+function placeImage(image) {
+	alert('placing');
+};
+
+function setUp(imageUrl) {
+
+var jsonTemp = {
+    "image": {
+    	"uri": imageUrl
+    }
+  };
+
+  var jsonTempStringified = JSON.stringify(jsonTemp);
+  var jsonTempStringifiedParsed = JSON.parse(jsonTempStringified);
 
   $.ajax({
     url: 'https://sensei.adobe.io/functions/image/autocrop',
@@ -16,19 +80,50 @@
         'Content-Type':'application/json'
     },
     method: 'POST',
-    dataType: 'json',
-    data: {"image": {
-    	"uri": "https://t3.ftcdn.net/jpg/01/33/96/28/240_F_133962856_TZklwMOihwcLpsDEkTHU1kZBEbm01z7K.jpg"}
-    },
+    dataType:'json',
+    data: JSON.stringify(jsonTemp),
     success: function(data){
-      alert('success: '+data);
+      parseMyData(data);
     }
-  });
+}
+
+
+
+  );
+
+}
+
+  function parseMyData(data) {
+	var cropArea = data.rectsOfInterest[0];
+	console.log(cropArea);
+	var rect = $('#overlay');
+	rect.css({
+		'left':cropArea.xMin,
+		'width': cropArea.xMax - cropArea.xMin,
+		'top': cropArea.yMin,
+		'height': cropArea.yMax - cropArea.yMin
+});
+	rect.fadeIn();
+}
+
+$("#myForm").submit(function( event ) {
+
+  event.preventDefault();
+  var imageUrl = $('#imageUrl').val();
+  console.log(imageUrl);
+  displayImage(imageUrl);
+  setUp(imageUrl);
+
+});
+
+function displayImage(imageUrl) {
+
+	$('#image').attr('src', imageUrl);
+
+};
  
 
 	</script>
-</head>
-<body>
-<H1>Hello World!</H1>
+
 </body>
 </html>
